@@ -262,12 +262,12 @@ public class MongoGradeDataBase implements GradeDataBase {
 
             if (responseBody.getInt(STATUS_CODE) == SUCCESS_CODE) {
                 JSONArray members_json;
-                members_json = responseBody.getJSONArray("members");
+                members_json = responseBody.getJSONObject("team").getJSONArray("members");
                 String[] members = new String[members_json.length()];
-                for (int i = 0; i < members_json.length(); i++){
+                for (int i = 0; i < members_json.length(); i++) {
                     members[i] = members_json.getString(i);
                 }
-                return new Team(responseBody.getString("name"), members);
+                return new Team(responseBody.getJSONObject("team").getString("name"), members);
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
